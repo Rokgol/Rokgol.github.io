@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Yotam Ravid</title>
+<meta name="description" content="Yotam Ravid, electrical engineering student at the Technion. Projects, coursework and CV.">
+<meta name="theme-color" content="#E9EEF0">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:ital,wght@0,400..900;1,400..900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- The live wave field. Desktop: fixed panel on the right. Phone: band at the top. -->
+<aside class="field" aria-label="Live wave simulation">
+  <canvas id="field" aria-hidden="true"></canvas>
+  <p class="quake" id="quake" aria-live="polite"></p>
+  <div class="field-caption">
+    <p class="eq">∂²u/∂t² = c²∇²u − γ ∂u/∂t</p>
+    <p id="field-note">The 2D wave equation, solved on a grid in your browser. Each ripple is a real earthquake from the last 24 hours (USGS), placed by longitude and latitude. Click or drag to make your own.</p>
+    <button type="button" class="tilt" id="tilt" hidden>Steer with your phone</button>
+  </div>
+</aside>
+
+<main class="content">
+
+  <header class="intro">
+    <h1>Yotam<br>Ravid</h1>
+    <div class="who">
+      <!-- Drop your picture in assets/photo.jpg. Until then the initials show. -->
+      <img class="photo" src="assets/photo.jpg" alt="Yotam Ravid" width="320" height="400"
+           onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'photo photo-empty',textContent:'YR'}))">
+      <p class="lede">Electrical engineering student at the Technion. I like turning ideas into models, and models into hardware.</p>
+    </div>
+    <nav class="jump" aria-label="Sections">
+      <a href="#projects">Projects</a>
+      <a href="#coursework">Coursework</a>
+      <a href="#cv">CV</a>
+      <a href="https://github.com/Rokgol">GitHub</a>
+    </nav>
+  </header>
+
+  <section id="projects">
+    <h2>Projects</h2>
+
+    <article class="project">
+      <h3>Remote-controlled car with closed-loop speed control</h3>
+      <p>Built on my own to put what I'd learnt at the Technion to use. I modelled the motors, designed a PI controller with feedforward that holds velocity from wheel-encoder feedback, and wrote the firmware in C for a Raspberry Pi Pico 2 W. The car runs its own Wi-Fi access point, takes commands over UDP, and turns tank-style since the chassis has no steering rack.</p>
+      <p class="links"><a href="https://github.com/Rokgol/MotorControl">Source</a></p>
+    </article>
+
+    <article class="project">
+      <h3>Joystick remote for the car</h3>
+      <p>A second Pico 2 W reads an analog joystick, calibrates its center at boot, and streams velocity references over UDP. Pressing the stick sends an emergency stop.</p>
+      <p class="links"><a href="https://github.com/Rokgol/MotorControl/blob/main/REMOTEREADME.md">Source</a></p>
+    </article>
+
+    <article class="project">
+      <h3>Snake on an FPGA</h3>
+      <p>A retro Snake game built in hardware for EE Lab 1 with Orr, on an Intel Cyclone V SoC. I designed the movement logic, graphics, sound and the game's state machine in SystemVerilog.</p>
+      <p class="links"><a href="https://github.com/Rokgol/YotamAndOrrsSnakeGame">Source</a></p>
+    </article>
+
+    <article class="project">
+      <h3>The Mirror Project: a passive Wi-Fi reflector</h3>
+      <p>A foil-lined reflector box that bends a router's signal around metal doors and the reinforced concrete of a safe room. Throughput in the dead zone went from 5 to 200 Mbps at almost no cost, where commercial repeaters had failed.</p>
+    </article>
+
+    <article class="project">
+      <h3>Historical Map Game</h3>
+      <p>Political borders across 5,400 years, from 3400 BCE to today, on an interactive map. In game mode you see a random year's borders and guess the year. Older years allow bigger misses. Built with Leaflet on the Seshat Cliopatria dataset.</p>
+      <p class="links"><a href="https://rokgol.github.io/HistoricalMapGame/">Play it</a> <a href="https://github.com/Rokgol/HistoricalMapGame">Source</a></p>
+    </article>
+  </section>
+
+
+  <section id="coursework">
+    <h2>Coursework</h2>
+    <p class="gpa">GPA 90.6. Dean's Honor Roll, Spring 2025. Expected graduation 2028.</p>
+
+    <ol class="semesters">
+      <li class="now">
+        <h3>Winter 2026–27 <span>now</span></h3>
+        <p>Photonics and Lasers, Waves and Distributed Systems, Physical Electronics, Electronic Circuits, Modular Robotics, EE Lab 1B</p>
+      </li>
+      <li>
+        <h3>Spring 2026</h3>
+        <p>Signals and Systems, Electromagnetic Fields, Semiconductor Devices, Probability, EE Lab 1A</p>
+      </li>
+      <li>
+        <h3>Winter 2025–26</h3>
+        <p>Quantum Physics for Engineers, Partial Differential Equations, Complex Functions, Fourier Series and Integral Transforms, Electric Circuit Theory, Data Structures and Algorithms</p>
+      </li>
+      <li>
+        <h3>Spring 2025</h3>
+        <p>Digital Systems and Computer Structure, Physics 2, Calculus 2, Algebra 2, Ordinary Differential Equations</p>
+      </li>
+      <li>
+        <h3>Winter 2024–25</h3>
+        <p>Physics 1, Physics Lab 1, Calculus 1, Algebra 1, Intro to Computer Science</p>
+      </li>
+    </ol>
+  </section>
+
+  <section id="service">
+    <h2>Before the Technion</h2>
+    <article class="project">
+      <h3>IDF Armored Corps, 2020–2023</h3>
+      <p>First Sergeant, 52nd Battalion, 401st Brigade. Loader in the experimental crew for the Merkava Barak prototype: field-tested its new systems alongside engineers from Elbit, El-Op and the Tank Development Authority, then trained crews across the Armored Corps on the new tank. Certificate of Excellence, 2022. Reserve duty as Sergeant Major since 2023.</p>
+    </article>
+  </section>
+
+  <section id="cv">
+    <h2>CV</h2>
+    <p>One page. I'm looking for a student position in embedded systems, power or optics.</p>
+    <!-- Drop your CV in assets/cv.pdf -->
+    <p class="links"><a href="assets/cv.pdf" download>Download CV (PDF)</a> <a href="assets/cv.pdf">Open in browser</a></p>
+  </section>
+
+  <footer class="foot">
+    <p><a href="mailto:yotam.ravid@gmail.com">yotam.ravid@gmail.com</a></p>
+    <p><a href="https://github.com/Rokgol">github.com/Rokgol</a></p>
+  </footer>
+
+</main>
+
+<script src="field.js"></script>
+</body>
+</html>
