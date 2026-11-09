@@ -4,7 +4,7 @@ Personal site of Yotam Ravid. Static, front end only, no build step.
 
 - `index.html`: content
 - `style.css`: layout for phone and desktop
-- `field.js`: live 2D wave-equation background. Ripples come from the last 24 h of earthquakes ([USGS feed](https://earthquake.usgs.gov/earthquakes/feed/v1.0/geojson.php)), clicks and taps, and phone tilt (asks permission first).
+- `field.js`: live 2D wave-equation background. Drag to disturb it, swipe or scroll to send a plane wave across, and on a phone tilt to roll a ball over the water (asks permission first).
 - `assets/photo.jpg`: profile picture (initials show until it exists)
 - `assets/cv.pdf`: CV
 
