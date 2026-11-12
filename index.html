@@ -19,31 +19,31 @@
 <main class="page">
 
   <header class="intro">
-    <!-- Drop your picture in assets/photo.jpg. Until then the initials show. -->
+    <!-- Profile picture: assets/photo.jpg -->
     <img class="photo" src="assets/photo.jpg" alt="Yotam Ravid" width="160" height="200"
          onerror="this.replaceWith(Object.assign(document.createElement('div'),{className:'photo photo-empty',textContent:'YR'}))">
     <div>
       <h1>Yotam Ravid</h1>
       <p class="lede">Electrical engineering student at the Technion. I like turning ideas into models, and models into hardware.</p>
+      <p class="links">
+        <a href="assets/cv.pdf">CV (PDF)</a>
+        <a href="https://github.com/Rokgol">GitHub</a>
+        <a href="mailto:yotam.ravid@gmail.com">Email</a>
+      </p>
     </div>
   </header>
 
   <nav class="board" aria-label="Projects and info">
     <div class="tiles">
-      <button class="tile" data-open="car"><b>Closed-loop RC car</b><span>C, Pico 2 W</span></button>
-      <button class="tile" data-open="remote"><b>Joystick remote</b><span>C, Pico 2 W</span></button>
-      <button class="tile" data-open="snake"><b>Snake on an FPGA</b><span>SystemVerilog</span></button>
-      <button class="tile" data-open="mirror"><b>Wi-Fi reflector</b><span>RF propagation</span></button>
-      <button class="tile" data-open="map"><b>Historical Map Game</b><span>JavaScript, Leaflet</span></button>
-      <button class="tile tile-info" data-open="courses"><b>Coursework</b><span>GPA 90.6</span></button>
-      <button class="tile tile-info" data-open="service"><b>Before the Technion</b><span>IDF Armored Corps</span></button>
+      <button class="tile" data-open="car"><b>Closed-loop RC car</b><span>C, Pico 2 W</span><em>PI + feedforward speed control, driven over Wi-Fi</em></button>
+      <button class="tile" data-open="remote"><b>Joystick remote</b><span>C, Pico 2 W</span><em>Joystick to UDP velocity commands, with e-stop</em></button>
+      <button class="tile" data-open="snake"><b>Snake on an FPGA</b><span>SystemVerilog</span><em>Game logic, graphics and sound in hardware</em></button>
+      <button class="tile" data-open="mirror"><b>Wi-Fi reflector</b><span>RF propagation</span><em>Dead-zone throughput from 5 to 200 Mbps</em></button>
+      <button class="tile" data-open="map"><b>Historical Map Game</b><span>JavaScript, Leaflet</span><em>5,400 years of borders, guess the year</em></button>
+      <button class="tile tile-info" data-open="courses"><b>Coursework</b><span>GPA 90.6</span><em>Now taking Photonics and Lasers, Waves and Distributed Systems, Physical Electronics and Electronic Circuits.<br><br>Dean's Honor Roll, Spring 2025.</em></button>
+      <button class="tile tile-info" data-open="service"><b>Before the Technion</b><span>IDF Armored Corps</span><em>Merkava Barak prototype crew</em></button>
     </div>
-    <p class="links">
-      <a href="assets/cv.pdf">CV (PDF)</a>
-      <a href="https://github.com/Rokgol">GitHub</a>
-      <a href="mailto:yotam.ravid@gmail.com">Email</a>
-    </p>
-    <p class="loop">My CV links back to this site. Open it and click the website, and it's recursion!</p>
+
   </nav>
 
   <aside class="caption">
