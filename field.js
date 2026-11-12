@@ -9,9 +9,10 @@
   Edges: a sponge layer (damping that ramps up toward the walls) absorbs outgoing
   waves, so they leave the tank instead of bouncing around.
 
-  Optical fiber (button): a bent core with n = 1.5 inside cladding with n = 1.
-  A laser at the left end drives a continuous wave into the core; total internal
-  reflection at the core/cladding boundary keeps it guided along the bends.
+  Optical fiber (button): core n = 1.5, cladding n = 1.499, surrounded by air (n = 1).
+  A laser at the left end drives a continuous wave into the core. With a core this
+  narrow (about one wavelength) a 0.001 index step barely confines the light, so it
+  spreads into the cladding and the cladding/air boundary does most of the guiding.
   This is the 2D scalar (slab-waveguide) picture: qualitatively right, not a full
   vector Maxwell solve.
 
@@ -26,12 +27,14 @@
   const fiberBtn = document.getElementById("fiber");
   const note = document.getElementById("tank-note");
   const NOTE_PLAIN = note.innerHTML;
-  const NOTE_FIBER = "Core n = 1.5, cladding n = 1: total internal reflection keeps the laser light in the fiber.";
+  const NOTE_FIBER = "Core n = 1.5, cladding n = 1.499, air n = 1. Total internal reflection keeps the light in the glass.";
 
   const reduceMotion = matchMedia("(prefers-reduced-motion: reduce)").matches;
   const CELL = 3;            // CSS px per grid cell
-  const C2_0 = 0.25;         // Courant number squared in the cladding / open water
+  const C2_0 = 0.25;         // Courant number squared at n = 1
   const N_CORE = 1.5;
+  const N_CLAD = 1.499;
+  const N_ENV = 1.0;         // the surrounding "air"
   const LOSS = 0.999;        // gentle loss in open water, the γ term (the core is lossless)
   const SPONGE = 12;         // absorbing layer thickness, cells
   const STEPS = 2;           // solver steps per frame
@@ -55,7 +58,7 @@
   })();
 
   // ---------- fiber geometry ----------
-  const fiber = { on: false, x0: 0, half: 4, A: 0, L: 1, mid: 0 };
+  const fiber = { on: false, x0: 0, half: 4, clad: 13, A: 0, L: 1, mid: 0 };
   // Centre line of the core, in grid cells: a straight lead-in where the laser couples in,
   // then a smooth dip and rise (zero slope at both ends of each bend).
   const LEAD = 30;
@@ -68,20 +71,23 @@
     fiber.x0 = SPONGE + 6;
     fiber.mid = gh / 2;
     fiber.half = 4;                                                   // core half-width, cells
-    fiber.A = Math.max(0, Math.min(gh * 0.2, (gh - 2 * SPONGE) / 2 - fiber.half - 3));
+    fiber.clad = 13;                                                  // cladding half-width, cells
+    fiber.A = Math.max(0, Math.min(gh * 0.2, (gh - 2 * SPONGE) / 2 - fiber.clad - 2));
     fiber.L = Math.max(120, (gw - fiber.x0 - LEAD) * 0.85);           // gentle enough to stay guided
   }
 
   // ---------- medium: speed and damping per cell ----------
   function buildMedium() {
-    c2.fill(C2_0);
+    c2.fill(C2_0 / (N_ENV * N_ENV));
     core.fill(0);
     if (fiber.on) {
-      const cc = C2_0 / (N_CORE * N_CORE);
+      const cCore = C2_0 / (N_CORE * N_CORE), cClad = C2_0 / (N_CLAD * N_CLAD);
       for (let x = fiber.x0; x < gw - 1; x++) {
         const yc = fiberY(x);
-        for (let y = Math.max(1, Math.floor(yc - fiber.half)); y <= Math.min(gh - 2, Math.ceil(yc + fiber.half)); y++) {
-          if (Math.abs(y - yc) <= fiber.half) { c2[y * gw + x] = cc; core[y * gw + x] = 1; }
+        for (let y = Math.max(1, Math.floor(yc - fiber.clad)); y <= Math.min(gh - 2, Math.ceil(yc + fiber.clad)); y++) {
+          const d = Math.abs(y - yc);
+          if (d <= fiber.half) { c2[y * gw + x] = cCore; core[y * gw + x] = 1; }       // glass: lossless
+          else if (d <= fiber.clad) { c2[y * gw + x] = cClad; core[y * gw + x] = 1; }
         }
       }
     }
@@ -152,7 +158,9 @@
   // guided wave's propagation constant β = n·ω/c0. Phase matching launches the light forward,
   // into the core, instead of spraying it in all directions like a point source would.
   const K = 16;
-  const BETA = 0.92 * N_CORE * OMEGA / Math.sqrt(C2_0);   // rad per cell; a guided mode's β sits just under the core wavenumber
+  // β for a mode with effective index between core and cladding, from the grid's own dispersion relation
+  const N_EFF = (N_CORE + N_CLAD) / 2;
+  const BETA = 2 * Math.asin(Math.sin(OMEGA / 2) * N_EFF / Math.sqrt(C2_0));   // rad per cell
   let tOn = 0;
   function laser() {
     const ramp = Math.min(1, (t - tOn) / 240);   // switch on smoothly: an abrupt start sprays light everywhere
@@ -204,17 +212,26 @@
   }
 
   function drawFiber() {
-    // core/cladding boundaries
-    ctx.lineWidth = 1.25;
-    ctx.strokeStyle = "rgba(138, 95, 0, 0.55)";
-    for (const side of [-1, 1]) {
+    // cladding (glass) tint, then the core/cladding and cladding/air boundaries
+    ctx.beginPath();
+    for (let x = fiber.x0; x <= gw - 1; x++) { const X = toPX(x), Y = toPY(fiberY(x) - fiber.clad); x === fiber.x0 ? ctx.moveTo(X, Y) : ctx.lineTo(X, Y); }
+    for (let x = gw - 1; x >= fiber.x0; x--) ctx.lineTo(toPX(x), toPY(fiberY(x) + fiber.clad));
+    ctx.closePath();
+    ctx.fillStyle = "rgba(232, 163, 23, 0.06)";
+    ctx.fill();
+    const edge = (off, style, width) => {
+      ctx.lineWidth = width; ctx.strokeStyle = style;
       ctx.beginPath();
-      for (let x = fiber.x0; x <= gw - 1; x += 1) {
-        const X = toPX(x), Y = toPY(fiberY(x) + side * fiber.half);
+      for (let x = fiber.x0; x <= gw - 1; x++) {
+        const X = toPX(x), Y = toPY(fiberY(x) + off);
         x === fiber.x0 ? ctx.moveTo(X, Y) : ctx.lineTo(X, Y);
       }
       ctx.stroke();
-    }
+    };
+    edge(-fiber.clad, "rgba(14, 42, 71, 0.45)", 1.25);
+    edge(fiber.clad, "rgba(14, 42, 71, 0.45)", 1.25);
+    edge(-fiber.half, "rgba(138, 95, 0, 0.55)", 1);
+    edge(fiber.half, "rgba(138, 95, 0, 0.55)", 1);
     // the laser at the input face
     const X = toPX(fiber.x0 + 1), Y = toPY(fiberY(fiber.x0 + 1));
     const h = fiber.half * 2 * sy + 8;
