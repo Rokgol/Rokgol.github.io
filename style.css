@@ -263,7 +263,7 @@ dialog:has(.media) { width: min(44rem, calc(100vw - 2rem)); }
     grid-template-areas:
       "car    remote courses"
       "snake  mirror courses"
-      "map    map    service";
+      "map    map    courses";
     gap: 0.6rem;
   }
   [data-open="car"] { grid-area: car; }
@@ -272,7 +272,6 @@ dialog:has(.media) { width: min(44rem, calc(100vw - 2rem)); }
   [data-open="mirror"] { grid-area: mirror; }
   [data-open="map"] { grid-area: map; }
   [data-open="courses"] { grid-area: courses; }
-  [data-open="service"] { grid-area: service; }
   .tile { padding: min(0.95rem, 1.8vh) 1.1rem min(1rem, 1.9vh); min-height: min(7.25rem, 15vh); }
   .tile b { font-size: 1.0625rem; }
   .tile em { display: block; margin-top: auto; padding-top: 0.6rem; font-style: normal; font-size: 0.875rem; line-height: 1.35; }

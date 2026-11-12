@@ -40,8 +40,7 @@
       <button class="tile" data-open="snake"><b>Snake on an FPGA</b><span>SystemVerilog</span><em>Game logic, graphics and sound in hardware</em></button>
       <button class="tile" data-open="mirror"><b>Wi-Fi reflector</b><span>RF propagation</span><em>Dead-zone throughput from 5 to 200 Mbps</em></button>
       <button class="tile" data-open="map"><b>Historical Map Game</b><span>JavaScript, Leaflet</span><em>5,400 years of borders, guess the year</em></button>
-      <button class="tile tile-info" data-open="courses"><b>Coursework</b><span>GPA 90.6</span><em>Now taking Photonics and Lasers, Waves and Distributed Systems, Physical Electronics and Electronic Circuits.<br><br>Dean's Honor Roll, Spring 2025.</em></button>
-      <button class="tile tile-info" data-open="service"><b>Before the Technion</b><span>IDF Armored Corps</span><em>Merkava Barak prototype crew</em></button>
+      <button class="tile tile-info" data-open="courses"><b>Coursework</b><span>GPA 90.6</span><em>Now taking Photonics and Lasers, Waves and Distributed Systems, Physical Electronics and Electronic Circuits.<br><br>Already done: Signals and Systems, Electromagnetic Fields, Quantum Physics, PDEs.<br><br>Dean's Honor Roll, Spring 2025.</em></button>
     </div>
 
   </nav>
@@ -62,6 +61,9 @@
 <template id="t-car">
   <h2 id="panel-title">Remote-controlled car with closed-loop speed control</h2>
   <p class="meta">C, Raspberry Pi Pico 2 W, 2026</p>
+  <div class="media">
+    <video src="assets/car.mp4" poster="assets/car-poster.jpg" autoplay muted loop playsinline controls aria-label="The car driving around the living room, steered with the joystick remote"></video>
+  </div>
   <p>Built on my own to put what I'd learnt at the Technion to use. I modelled the motors, designed a PI controller with feedforward that holds velocity from wheel-encoder feedback, and wrote the firmware in C.</p>
   <p>The Pico runs its own Wi-Fi access point and takes commands over UDP. A 10 kHz control loop reads encoder periods timed by the PIO at 2 µs resolution. The chassis has no steering rack, so it turns tank-style.</p>
   <p class="actions"><a href="https://github.com/Rokgol/MotorControl">Source on GitHub</a></p>
@@ -70,6 +72,9 @@
 <template id="t-remote">
   <h2 id="panel-title">Joystick remote for the car</h2>
   <p class="meta">C, Raspberry Pi Pico 2 W, 2026</p>
+  <div class="media">
+    <img src="assets/remote.jpg" alt="Driving the car from the floor with the joystick remote">
+  </div>
   <p>A second Pico 2 W reads an analog joystick, calibrates its center at boot, and streams velocity references to the car over UDP every 50 ms. Pressing the stick sends an emergency stop.</p>
   <p class="actions"><a href="https://github.com/Rokgol/MotorControl/blob/main/REMOTEREADME.md">Source on GitHub</a></p>
 </template>
@@ -109,12 +114,6 @@
   </ol>
 </template>
 
-<template id="t-service">
-  <h2 id="panel-title">IDF Armored Corps</h2>
-  <p class="meta">First Sergeant, 52nd Battalion, 401st Brigade, 2020–2023</p>
-  <p>Loader in the experimental crew for the Merkava Barak prototype. I field-tested its new systems alongside engineers from Elbit, El-Op and the Tank Development Authority, then trained crews across the Armored Corps on the new tank.</p>
-  <p>Certificate of Excellence, 2022. Reserve duty as Sergeant Major since 2023.</p>
-</template>
 
 <script src="field.js"></script>
 <script>
