@@ -13,9 +13,6 @@
 </head>
 <body>
 
-<!-- Full-screen wave field behind everything -->
-<canvas id="field" aria-hidden="true"></canvas>
-
 <main class="page">
 
   <header class="intro">
@@ -33,6 +30,15 @@
     </div>
   </header>
 
+  <section class="tank" aria-label="Live wave simulation">
+    <canvas id="field" aria-hidden="true"></canvas>
+    <div class="tank-bar">
+      <button type="button" id="fiber" aria-pressed="false">Add an optical fiber</button>
+      <button type="button" id="tilt" hidden>Steer with your phone</button>
+    </div>
+    <p class="tank-note" id="tank-note"><i>∂²u/∂t² = (c/n)² ∇²u</i>, solved live. Drag, swipe or scroll to make waves.</p>
+  </section>
+
   <nav class="board" aria-label="Projects and info">
     <div class="tiles">
       <button class="tile" data-open="car"><b>Closed-loop RC car</b><span>C, Pico 2 W</span><em>PI + feedforward speed control, driven over Wi-Fi</em></button>
@@ -45,10 +51,6 @@
 
   </nav>
 
-  <aside class="caption">
-    <p><i>∂²u/∂t² = c²∇²u − γ ∂u/∂t</i>, solved live. Drag, swipe or scroll to make waves.</p>
-    <button type="button" class="tilt" id="tilt" hidden>Steer with your phone</button>
-  </aside>
 
 </main>
 
