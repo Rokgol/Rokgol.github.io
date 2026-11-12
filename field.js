@@ -269,6 +269,28 @@
     }, 2000);
   }
 
+  // ---------- boxes on the page make ripples ----------
+  // A ridge around a rectangle's outline: an expanding rectangular wavefront from its edges.
+  function rectRipple(r, a) {
+    const s = 1.6, band = 5;
+    const x0 = r.left / CELL + 1, x1 = r.right / CELL + 1, y0 = r.top / CELL + 1, y1 = r.bottom / CELL + 1;
+    for (let y = Math.max(1, Math.floor(y0 - band)); y <= Math.min(gh - 2, Math.ceil(y1 + band)); y++) {
+      for (let x = Math.max(1, Math.floor(x0 - band)); x <= Math.min(gw - 2, Math.ceil(x1 + band)); x++) {
+        const dx = Math.max(x0 - x, 0, x - x1), dy = Math.max(y0 - y, 0, y - y1);
+        const d = Math.hypot(dx, dy);
+        if (d === 0) continue;            // inside the box: leave it
+        u[y * gw + x] += a * Math.exp(-((d - 1.5) ** 2) / (s * s));
+      }
+    }
+  }
+  document.querySelectorAll(".tile").forEach(el => {
+    el.addEventListener("pointerenter", e => {
+      if (e.pointerType !== "mouse") return;
+      rectRipple(el.getBoundingClientRect(), 0.75); wake();
+    });
+    el.addEventListener("click", () => { rectRipple(el.getBoundingClientRect(), 1.4); wake(); });
+  });
+
   // ---------- ambient drops ----------
   setInterval(() => {
     if (!running || reduceMotion || dialogOpen()) return;

@@ -77,8 +77,11 @@
 <template id="t-snake">
   <h2 id="panel-title">Snake on an FPGA</h2>
   <p class="meta">SystemVerilog, Quartus, Intel Cyclone V SoC, 2026</p>
+  <div class="media">
+    <iframe src="https://www.youtube-nocookie.com/embed/1UiXuW0C5MQ?rel=0" title="Snake on an FPGA, gameplay video" allow="encrypted-media; picture-in-picture; fullscreen" allowfullscreen loading="lazy"></iframe>
+  </div>
   <p>A retro Snake game built in hardware for EE Lab 1 with Orr. I designed the movement logic, graphics, sound and the game's state machine.</p>
-  <p class="actions"><a href="https://github.com/Rokgol/YotamAndOrrsSnakeGame">Source on GitHub</a></p>
+  <p class="actions"><a href="https://github.com/Rokgol/YotamAndOrrsSnakeGame">Source on GitHub</a> <a href="https://youtu.be/1UiXuW0C5MQ">Watch on YouTube</a></p>
 </template>
 
 <template id="t-mirror">
@@ -127,7 +130,7 @@
   }));
   panel.querySelector(".close").addEventListener("click", () => panel.close());
   panel.addEventListener("click", e => { if (e.target === panel) panel.close(); }); // click outside the box
-  panel.addEventListener("close", () => opener && opener.focus());
+  panel.addEventListener("close", () => { body.replaceChildren(); opener && opener.focus(); }); // also stops any video
 </script>
 </body>
 </html>
